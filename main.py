@@ -40,8 +40,7 @@ def export():
         if not jobs:
             raise Exception()
         save_to_file(jobs)
-        filename = "jobs.csv"
-        return send_file(filename, as_attachment=True, attachment_filename=filename)
+        return send_file("jobs.csv", as_attachment=True, attachment_filename=f"{word} jobs.csv")
     except Exception as ex:
         print(ex)
         return redirect("/")
