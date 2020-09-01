@@ -1,17 +1,22 @@
-var sw = true
+let sw = true;
+const form = document.querySelector("form");
+const txt = document.querySelector(".loading");
 
-function loading(){
-    $('.loading').text("Searching...")
-    setInterval("changeText()", 3000);
+function load() {
+  console.log(txt);
+  txt.innerText = "Searching...";
+  console.log(txt.innerText);
+  setInterval(changeText, 3000);
 }
 
-function changeText(){
-    txt = $('.loading')
-    if(sw) {
-        txt.text("It may take some time...")
-        sw = false
-    } else {
-        txt.text("Searching...")
-        sw = true
-    }
+function changeText() {
+  if (sw) {
+    txt.innerText = "It may take some time...";
+    sw = false;
+  } else {
+    txt.innerText = "Searching...";
+    sw = true;
+  }
+
+  form.addEventListener("submit", load);
 }
