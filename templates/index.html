@@ -2,21 +2,23 @@
 <html>
   <head>
     <title>Job Search</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}" />
   </head>
   <body>
     <h1>Job Search</h1>
     <form action="/report" method="get">
       <input
         type="text"
-        placeholder="What job do you want?"
+        placeholder="검색어를 입력하세요"
         required
         name="word"
         class="inputtext"
+        autofocus
+        autocomplete="off"
       />
       <input type="submit" value="Search" class="submit" />
     </form>
     <div class="loading"></div>
-    <script src="../static/loading.js"></script>
+    <script src="{{url_for('static', filename='loading.js')}}"></script>
   </body>
 </html>

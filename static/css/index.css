@@ -15,7 +15,7 @@ input:focus {
 }
 
 body {
-  background: url("img/bg.jpg") no-repeat;
+  background: url("../img/bg.jpg") no-repeat;
   background-position: center -100px;
 }
 
@@ -40,8 +40,7 @@ form input {
 }
 
 form input.inputtext {
-  display: inline;
-  width: 250px;
+  display: inline-block;
   border-bottom: 2px solid white;
   font-size: 20px;
   line-height: 20px;

@@ -3,7 +3,7 @@ const form = document.querySelector("form");
 const txt = document.querySelector(".loading");
 
 function load() {
-  console.log(txt);
+  console.log("test");
   txt.innerText = "Searching...";
   console.log(txt.innerText);
   setInterval(changeText, 3000);
@@ -17,6 +17,6 @@ function changeText() {
     txt.innerText = "Searching...";
     sw = true;
   }
-
-  form.addEventListener("submit", load);
 }
+
+form.addEventListener("submit", load);
