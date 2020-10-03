@@ -61,6 +61,17 @@ form input::placeholder {
 form input.submit:hover {
   background: white;
   color: #10020f;
+  animation: fadeIn 0.2s linear;
+}
+@keyframes fadeIn {
+  from {
+    background: #10020f;
+    color: white;
+  }
+  to {
+    background: white;
+    color: #10020f;
+  }
 }
 
 .loading {

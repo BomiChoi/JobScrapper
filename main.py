@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, send_file
 from scrapper import get_jobs
 from exporter import save_to_file
+from datetime import date
 
 app = Flask("SuperScrapper")
 
@@ -40,7 +41,9 @@ def export():
         if not jobs:
             raise Exception()
         save_to_file(jobs)
-        return send_file("jobs.csv", as_attachment=True, attachment_filename=f"{word} jobs.csv")
+        today = date.today()
+        date_str = today.strftime("%y%m%d")
+        return send_file("jobs.csv", as_attachment=True, attachment_filename=f"{word} jobs {date_str}.csv")
     except Exception as ex:
         print(ex)
         return redirect("/")

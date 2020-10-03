@@ -3,9 +3,7 @@ const form = document.querySelector("form");
 const txt = document.querySelector(".loading");
 
 function load() {
-  console.log("test");
   txt.innerText = "Searching...";
-  console.log(txt.innerText);
   setInterval(changeText, 3000);
 }
 
