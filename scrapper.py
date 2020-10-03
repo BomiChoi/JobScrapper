@@ -7,6 +7,7 @@ def get_last_JK_page(url):
     result = requests.get(url)
     soup = BeautifulSoup(result.text, "html.parser")
     total_txt = soup.find("strong", {"class": "dev_tot"}).get_text(strip=True)
+    total_txt = total_txt.replace(',','')
     total = int(total_txt)
     return (total//20) + 1
 
@@ -88,7 +89,11 @@ def extract_WWR(html):
     spans = parent.find_all("span")
     title = spans[1].get_text(strip=True)
     company = spans[0].get_text(strip=True)
-    location = parent.find("span", {"class": "region company"}).get_text(strip=True)
+    location = parent.find("span", {"class": "region company"})
+    if location is not None:
+        location = location.get_text(strip=True)
+    else:
+        location = "Remote"
     time = spans[3].get_text(strip=True)
     
     job_id = parent["href"]

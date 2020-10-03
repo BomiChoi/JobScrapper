@@ -19,6 +19,24 @@
       <input type="submit" value="Search" class="submit" />
     </form>
     <div class="loading"></div>
+    <div class="saved">
+      <h3>Saved Results</h3>
+      
+      <ul>
+      {% if words != [] %}
+        {% for word in words %}
+        <li>
+          <a href="/report?word={{word}}">{{word}}</a>
+          <a class="delBtn" href="/delete?word={{word}}">X</a>
+        </li>
+        {% endfor %}
+      {% else %}
+        <li>No Results</li>
+      {% endif %}
+      </ul>
+      
+    </div>
+    
     <script src="{{url_for('static', filename='loading.js')}}"></script>
   </body>
 </html>

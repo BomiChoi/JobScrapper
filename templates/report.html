@@ -7,13 +7,13 @@
       href="{{url_for('static', filename='css/report.css')}}"
     />
   </head>
-
   <body>
     <header>
       <h1>Search Results</h1>
       <div class="result">
         <h3>Found {{resultsNumber}} results for: {{searchingBy}}</h3>
         <a href="/export?word={{searchingBy}}">Export to CSV</a>
+        <a href="/">Return to Home</a>
       </div>
       <div class="field">
         <h4>Title</h4>

@@ -10,7 +10,7 @@ db = {} #임시 데이터베이스
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html", words=sorted(list(db.keys())))
 
 
 @app.route("/report")
@@ -47,6 +47,19 @@ def export():
     except Exception as ex:
         print(ex)
         return redirect("/")
+
+
+@app.route("/delete")
+def delete():
+    word = request.args.get('word')
+    if word:
+        word = word.lower() #소문자로 변환
+        existingJobs = db.get(word) 
+        if existingJobs: #데이터베이스에 이미 있을 때
+            del db[word]
+    else:
+        return redirect("/")
+    return render_template("index.html", words=list(db.keys()))
 
 
 app.run(host="0.0.0.0", debug=True)
