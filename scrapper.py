@@ -29,7 +29,7 @@ def extract_JKs(word):
     last_page = get_last_JK_page(url)
     jobs = []
     for page in range(last_page):
-        print(f"Scrapping JK: Page {page+1}/{last_page}")
+        #print(f"Scrapping JK: Page {page+1}/{last_page}")
         result = requests.get(f"{url}&Page_No={page+1}")
         soup = BeautifulSoup(result.text, "html.parser").find("div", {"class": "list-default"})
         if soup is not None:
@@ -73,7 +73,7 @@ def extract_SOs(word):
     last_page = get_last_SO_page(url)
     jobs = []
     for page in range(last_page):
-        print(f"Scrapping SO: Page {page+1}/{last_page}")
+        #print(f"Scrapping SO: Page {page+1}/{last_page}")
         result = requests.get(f"{url}&pg={page+1}")
         soup = BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class": "-job"})
@@ -102,7 +102,7 @@ def extract_WWR(html):
 def extract_WWRs(word):
     url = f"https://weworkremotely.com/remote-jobs/search?term={word}"
     jobs = []
-    print(f"Scrapping WWR")
+    #print(f"Scrapping WWR")
     result = requests.get(url)
     soup = BeautifulSoup(result.text, "html.parser")
     results = soup.find_all("li", {"class": "feature"})
