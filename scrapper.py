@@ -86,10 +86,11 @@ def extract_SOs(word):
 def extract_WWR(html):
     parent = html.find("a", {"href": re.compile("/remote-jobs")})
     spans = parent.find_all("span")
+    title = spans[1].get_text(strip=True)
     company = spans[0].get_text(strip=True)
     location = parent.find("span", {"class": "region company"}).get_text(strip=True)
-    time = parent.find("span", {"class": "date"}).get_text(strip=True)
-    title = spans[1].get_text(strip=True)
+    time = spans[3].get_text(strip=True)
+    
     job_id = parent["href"]
     return {
         'title': title,
