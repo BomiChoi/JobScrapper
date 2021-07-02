@@ -30,8 +30,10 @@ def extract_JKs(word):
     last_page = get_last_JK_page(url)
     jobs = []
     for page in range(last_page):
-        #print(f"Scrapping JK: Page {page+1}/{last_page}")
-        result = requests.get(f"{url}&Page_No={page+1}")
+        print(f"Scrapping JK: Page {page+1}/{last_page}")
+        result = requests.get(f"{url}&Page_No={page+1}", headers={"User-Agent":("Mozilla/5.0 (Windows NT 10.0;Win64; x64)\
+AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98\
+Safari/537.36")})
         soup = BeautifulSoup(result.text, "html.parser").find("div", {"class": "list-default"})
         if soup is not None:
             results = soup.find_all("li", {"class": "list-post"})
@@ -59,7 +61,7 @@ def extract_SO(html):
         "span", recursive=False)
     company = company.get_text(strip=True)
     location = location.get_text(strip=True)
-    time = parent.find("div", {"class": "fs-caption"}).find_all("div", {"class": "grid--cell"})[0].get_text(strip=True)
+    time = parent.find("ul", {"class": "fs-caption"}).find_all("li")[0].get_text(strip=True)
     job_id = html['data-jobid']
     return {
         'title': title,
@@ -74,7 +76,7 @@ def extract_SOs(word):
     last_page = get_last_SO_page(url)
     jobs = []
     for page in range(last_page):
-        #print(f"Scrapping SO: Page {page+1}/{last_page}")
+        print(f"Scrapping SO: Page {page+1}/{last_page}")
         result = requests.get(f"{url}&pg={page+1}")
         soup = BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class": "-job"})
@@ -86,15 +88,18 @@ def extract_SOs(word):
 
 def extract_WWR(html):
     parent = html.find("a", {"href": re.compile("/remote-jobs")})
-    spans = parent.find_all("span")
-    title = spans[1].get_text(strip=True)
-    company = spans[0].get_text(strip=True)
-    location = parent.find("span", {"class": "region company"})
+    title = parent.find("span", {"class": "title"}).get_text(strip=True)
+    company = parent.find("span", {"class": "company"}).get_text(strip=True)
+    location = parent.find("span", {"class": "region"})
     if location is not None:
         location = location.get_text(strip=True)
     else:
         location = "Remote"
-    time = spans[3].get_text(strip=True)
+    time = parent.find("span", {"class": "date"})
+    if time is not None:
+        time = time.get_text(strip=True)
+    else:
+        time = "None"
     
     job_id = parent["href"]
     return {
@@ -108,7 +113,7 @@ def extract_WWR(html):
 def extract_WWRs(word):
     url = f"https://weworkremotely.com/remote-jobs/search?term={word}"
     jobs = []
-    #print(f"Scrapping WWR")
+    print(f"Scrapping WWR")
     result = requests.get(url)
     soup = BeautifulSoup(result.text, "html.parser")
     results = soup.find_all("li", {"class": "feature"})
