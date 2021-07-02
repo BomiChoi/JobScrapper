@@ -1,7 +1,10 @@
 import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 from bs4 import BeautifulSoup
 import re
 
+headers = {'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
 
 def get_last_JK_page(url):
     result = requests.get(url)
@@ -31,9 +34,10 @@ def extract_JKs(word):
     jobs = []
     for page in range(last_page):
         print(f"Scrapping JK: Page {page+1}/{last_page}")
-        result = requests.get(f"{url}&Page_No={page+1}", headers={"User-Agent":("Mozilla/5.0 (Windows NT 10.0;Win64; x64)\
-AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98\
-Safari/537.36")})
+        try:   
+            result = requests.get(f"{url}&Page_No={page+1}", headers=headers)
+        except:
+            break
         soup = BeautifulSoup(result.text, "html.parser").find("div", {"class": "list-default"})
         if soup is not None:
             results = soup.find_all("li", {"class": "list-post"})
@@ -77,7 +81,10 @@ def extract_SOs(word):
     jobs = []
     for page in range(last_page):
         print(f"Scrapping SO: Page {page+1}/{last_page}")
-        result = requests.get(f"{url}&pg={page+1}")
+        try:   
+            result = requests.get(f"{url}&pg={page+1}", headers=headers)
+        except:
+            break
         soup = BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class": "-job"})
         for result in results:

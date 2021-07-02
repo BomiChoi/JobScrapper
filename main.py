@@ -35,11 +35,11 @@ def export():
     try:
         word = request.args.get('word')
         if not word:
-            raise Exception()
+            raise Exception('No word')
         word = word.lower()
         jobs = db.get(word)
         if not jobs:
-            raise Exception()
+            raise Exception('No saved jobs')
         save_to_file(jobs)
         today = date.today()
         date_str = today.strftime("%y%m%d")
