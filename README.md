@@ -7,8 +7,7 @@
 - 서버에 저장된 검색결과 불러오기
 - AWS EC2 호스팅
 
-### 사용기술</br>
-
+사용기술</br>
 <img src="https://img.shields.io/badge/HTML5-E34F26?logo=HTML5&logoColor=white"/>
 <img src="https://img.shields.io/badge/CSS3-1572B6?logo=CSS3&logoColor=white"/>
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=JavaScript&logoColor=black"/>
