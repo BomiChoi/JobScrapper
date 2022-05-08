@@ -59,7 +59,7 @@ def delete():
             del db[word]
     else:
         return redirect("/")
-    return render_template("index.html", words=list(db.keys()))
+    return render_template("index.html", words=sorted(list(db.keys())))
 
 
 app.run(host="0.0.0.0", debug=True)

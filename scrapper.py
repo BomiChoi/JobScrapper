@@ -2,7 +2,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from bs4 import BeautifulSoup
-import re
+from flask import render_template
 
 headers = {'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
 
@@ -36,7 +36,7 @@ def extract_JKs(word):
     last_page = get_last_JK_page(url)
     jobs = []
     for page in range(last_page):
-        print(f"Scrapping JK: Page {page+1}/{last_page}")
+        # print(f"Scrapping JK: Page {page+1}/{last_page}")
         try:   
             result = requests.get(f"{url}&Page_No={page+1}", headers=headers)
         except:
@@ -87,7 +87,7 @@ def extract_SOs(word):
     last_page = get_last_SO_page(url)
     jobs = []
     for page in range(last_page):
-        print(f"Scrapping SO: Page {page+1}/{last_page}")
+        # print(f"Scrapping SO: Page {page+1}/{last_page}")
         try:   
             result = requests.get(f"{url}&pg={page+1}", headers=headers)
         except:
@@ -131,7 +131,7 @@ def extract_WWR(html):
 def extract_WWRs(word):
     url = f"https://weworkremotely.com/remote-jobs/search?term={word}"
     jobs = []
-    print(f"Scrapping WWR")
+    # print(f"Scrapping WWR")
     result = requests.get(url)
     soup = BeautifulSoup(result.text, "html.parser")
     results = soup.find_all("li", {"class": "feature"})
