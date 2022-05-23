@@ -2,15 +2,17 @@ from flask import Flask, render_template, request, redirect, send_file
 from scrapper import get_jobs
 from exporter import save_to_file
 from datetime import date
+from db import *
 
-app = Flask("SuperScrapper")
+app = Flask("JobScrapper")
 
-db = {} #임시 데이터베이스
+# db = {} #임시 데이터베이스
+create_db()
 
 
 @app.route("/")
 def home():
-    return render_template("index.html", words=sorted(list(db.keys())))
+    return render_template("index.html", words=sorted(get_keywords()))
 
 
 @app.route("/report")
@@ -18,12 +20,12 @@ def report():
     word = request.args.get('word')
     if word:
         word = word.lower() #소문자로 변환
-        existingJobs = db.get(word) 
-        if existingJobs: #데이터베이스에 이미 있을 때
+        existingJobs = get_results(word) 
+        if len(existingJobs) > 0: #데이터베이스에 이미 있을 때
             jobs = existingJobs
         else:
             jobs = get_jobs(word)
-            db[word] = jobs
+            add_result(word, jobs)
     else:
         return redirect("/")
     return render_template(
@@ -37,8 +39,8 @@ def export():
         if not word:
             raise Exception('No word')
         word = word.lower()
-        jobs = db.get(word)
-        if not jobs:
+        jobs = get_results(word)
+        if len(jobs) == 0:
             raise Exception('No saved jobs')
         save_to_file(jobs)
         today = date.today()
@@ -54,12 +56,12 @@ def delete():
     word = request.args.get('word')
     if word:
         word = word.lower() #소문자로 변환
-        existingJobs = db.get(word) 
-        if existingJobs: #데이터베이스에 이미 있을 때
-            del db[word]
+        existingJobs = get_results(word)
+        if len(existingJobs) > 0: #데이터베이스에 이미 있을 때
+            delete_result(word)
     else:
         return redirect("/")
-    return render_template("index.html", words=sorted(list(db.keys())))
+    return render_template("index.html", words=sorted(get_keywords()))
 
 
 app.run(host="0.0.0.0", debug=True)
